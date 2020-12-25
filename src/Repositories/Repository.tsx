@@ -16,7 +16,7 @@ export const RepositoryItem = (props: Props): JSX.Element => {
         <ListItem
             accessible={true}
             accessibilityLabel="character details"
-            testID={'repository-' + item.id}
+            testID={'repository-' + item.name}
             containerStyle={styles.listItem}
             bottomDivider
             onPress={() => {
