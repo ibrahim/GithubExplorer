@@ -61,21 +61,16 @@ export const RepositoryItem = (props: Props): JSX.Element => {
     );
 };
 
-export default createFragmentContainer(
-    RepositoryItem,
-    // Each key specified in this object will correspond to a prop available to the component
-    {
-        item: graphql`
-            # As a convention, we name the fragment as '<ComponentFileName>_<propName>'
-            fragment Repository_item on Repository {
+export default createFragmentContainer(RepositoryItem, {
+    item: graphql`
+        fragment Repository_item on Repository {
+            name
+            stargazerCount
+            primaryLanguage {
+                id
                 name
-                stargazerCount
-                primaryLanguage {
-                    id
-                    name
-                    color
-                }
+                color
             }
-        `,
-    },
-);
+        }
+    `,
+});
