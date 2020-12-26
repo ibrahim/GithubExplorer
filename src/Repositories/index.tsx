@@ -5,11 +5,13 @@ import { Text } from 'react-native';
 import { graphql, QueryRenderer } from 'react-relay';
 import { environment } from '../relay-env';
 import { Layout } from './styled';
+import { Loading } from './helpers';
 import List from './List';
 import ProfileHeader from './ProfileHeader';
+import * as Constants from '../constants';
 
 const repositoriesQuery = graphql`
-    query RepositoriesQuery($pageSize: Int!, $after: String) {
+    query RepositoriesQuery($pageSize: Int!, $after: String, $isFork: Boolean) {
         viewer {
             ...ProfileHeader_viewer
             ...List_viewer
@@ -22,13 +24,13 @@ export const ReposScreen = (): JSX.Element => {
         <QueryRenderer<RepositoriesQuery>
             environment={environment}
             query={repositoriesQuery}
-            variables={{ pageSize: 2 }}
+            variables={{ pageSize: Constants.REPO_PER_PAGE, isFork: false }}
             render={({ error, props }) => {
                 if (error) {
                     return <Text>Error!</Text>;
                 }
                 if (!props) {
-                    return <Text>Loading...</Text>;
+					return <Loading/>;
                 }
                 return (
                     <Layout>

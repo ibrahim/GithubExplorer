@@ -7,6 +7,7 @@ import { FragmentRefs } from "relay-runtime";
 export type ListPaginationQueryVariables = {
     pageSize: number;
     after?: string | null;
+    isFork?: boolean | null;
 };
 export type ListPaginationQueryResponse = {
     readonly viewer: {
@@ -24,6 +25,7 @@ export type ListPaginationQuery = {
 query ListPaginationQuery(
   $pageSize: Int!
   $after: String
+  $isFork: Boolean
 ) {
   viewer {
     ...List_viewer
@@ -32,7 +34,13 @@ query ListPaginationQuery(
 }
 
 fragment List_viewer on User {
-  repositories(first: $pageSize, after: $after, isFork: false) {
+  repositories(first: $pageSize, after: $after, isFork: $isFork) {
+    pageInfo {
+      endCursor
+      startCursor
+      hasNextPage
+      hasPreviousPage
+    }
     edges {
       node {
         id
@@ -40,10 +48,6 @@ fragment List_viewer on User {
         __typename
       }
       cursor
-    }
-    pageInfo {
-      endCursor
-      hasNextPage
     }
   }
 }
@@ -67,9 +71,14 @@ var v0 = {
 v1 = {
   "defaultValue": null,
   "kind": "LocalArgument",
+  "name": "isFork"
+},
+v2 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
   "name": "pageSize"
 },
-v2 = [
+v3 = [
   {
     "kind": "Variable",
     "name": "after",
@@ -81,19 +90,19 @@ v2 = [
     "variableName": "pageSize"
   },
   {
-    "kind": "Literal",
+    "kind": "Variable",
     "name": "isFork",
-    "value": false
+    "variableName": "isFork"
   }
 ],
-v3 = {
+v4 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
 },
-v4 = {
+v5 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -104,7 +113,8 @@ return {
   "fragment": {
     "argumentDefinitions": [
       (v0/*: any*/),
-      (v1/*: any*/)
+      (v1/*: any*/),
+      (v2/*: any*/)
     ],
     "kind": "Fragment",
     "metadata": null,
@@ -133,8 +143,9 @@ return {
   "kind": "Request",
   "operation": {
     "argumentDefinitions": [
-      (v1/*: any*/),
-      (v0/*: any*/)
+      (v2/*: any*/),
+      (v0/*: any*/),
+      (v1/*: any*/)
     ],
     "kind": "Operation",
     "name": "ListPaginationQuery",
@@ -149,12 +160,51 @@ return {
         "selections": [
           {
             "alias": null,
-            "args": (v2/*: any*/),
+            "args": (v3/*: any*/),
             "concreteType": "RepositoryConnection",
             "kind": "LinkedField",
             "name": "repositories",
             "plural": false,
             "selections": [
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "PageInfo",
+                "kind": "LinkedField",
+                "name": "pageInfo",
+                "plural": false,
+                "selections": [
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "endCursor",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "startCursor",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "hasNextPage",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "hasPreviousPage",
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              },
               {
                 "alias": null,
                 "args": null,
@@ -171,8 +221,8 @@ return {
                     "name": "node",
                     "plural": false,
                     "selections": [
-                      (v3/*: any*/),
                       (v4/*: any*/),
+                      (v5/*: any*/),
                       {
                         "alias": null,
                         "args": null,
@@ -188,8 +238,8 @@ return {
                         "name": "primaryLanguage",
                         "plural": false,
                         "selections": [
-                          (v3/*: any*/),
-                          (v4/*: any*/)
+                          (v4/*: any*/),
+                          (v5/*: any*/)
                         ],
                         "storageKey": null
                       },
@@ -212,38 +262,13 @@ return {
                   }
                 ],
                 "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "concreteType": "PageInfo",
-                "kind": "LinkedField",
-                "name": "pageInfo",
-                "plural": false,
-                "selections": [
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "endCursor",
-                    "storageKey": null
-                  },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "hasNextPage",
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
               }
             ],
             "storageKey": null
           },
           {
             "alias": null,
-            "args": (v2/*: any*/),
+            "args": (v3/*: any*/),
             "filters": [
               "isFork"
             ],
@@ -252,21 +277,21 @@ return {
             "kind": "LinkedHandle",
             "name": "repositories"
           },
-          (v3/*: any*/)
+          (v4/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "e30d12390177033690cc9ab143ec764e",
+    "cacheID": "2662e191e5a93ce588834d16e9fbc59d",
     "id": null,
     "metadata": {},
     "name": "ListPaginationQuery",
     "operationKind": "query",
-    "text": "query ListPaginationQuery(\n  $pageSize: Int!\n  $after: String\n) {\n  viewer {\n    ...List_viewer\n    id\n  }\n}\n\nfragment List_viewer on User {\n  repositories(first: $pageSize, after: $after, isFork: false) {\n    edges {\n      node {\n        id\n        ...Repository_item\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment Repository_item on Repository {\n  name\n  stargazerCount\n  primaryLanguage {\n    id\n    name\n  }\n}\n"
+    "text": "query ListPaginationQuery(\n  $pageSize: Int!\n  $after: String\n  $isFork: Boolean\n) {\n  viewer {\n    ...List_viewer\n    id\n  }\n}\n\nfragment List_viewer on User {\n  repositories(first: $pageSize, after: $after, isFork: $isFork) {\n    pageInfo {\n      endCursor\n      startCursor\n      hasNextPage\n      hasPreviousPage\n    }\n    edges {\n      node {\n        id\n        ...Repository_item\n        __typename\n      }\n      cursor\n    }\n  }\n}\n\nfragment Repository_item on Repository {\n  name\n  stargazerCount\n  primaryLanguage {\n    id\n    name\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '9fa598d3d144e7864c3aac79852142d0';
+(node as any).hash = '5e64f2109e4e991be3e5c4ea5db7ef3b';
 export default node;

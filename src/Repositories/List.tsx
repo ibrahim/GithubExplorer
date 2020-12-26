@@ -1,21 +1,30 @@
 import * as React from 'react';
 import { FlatList, Platform, ActivityIndicator } from 'react-native';
+import { ButtonGroup } from 'react-native-elements';
 import { graphql, createPaginationContainer, RelayPaginationProp } from 'react-relay';
 import { ScrollingList, FooterContainer } from './styled';
 import Repository from './Repository';
+import * as Constants from '../constants';
 
 export interface ComponentProps {
     viewer: any;
     relay: RelayPaginationProp;
+    isFork: boolean;
 }
 
 export type Props = ComponentProps;
 
 export const RepositoriesList = (props: Props): JSX.Element => {
     const { viewer, relay } = props;
-    const items = viewer?.repositories?.edges.map(({ node }: any) => node);
+    const repositories = viewer?.repositories;
+
+    const pageInfo = repositories?.pageInfo;
+    const items = repositories?.edges.map(({ node }: any) => node);
+
+    const [isFork, setIsFork] = React.useState(false);
+    const listRef = React.useRef<FlatList<any>>(null);
     const onEndReached = () => {
-        if (relay.hasMore() && !relay.isLoading()) {
+        if (pageInfo.hasNextPage && !relay.isLoading()) {
             /* eslint-disable no-console */
             console.log('load more');
             relay.loadMore(20);
@@ -25,6 +34,28 @@ export const RepositoriesList = (props: Props): JSX.Element => {
             return null;
         }
     };
+
+    const buttons = ['Original', 'Forked'];
+    const selectRepositoriesType = React.useCallback(
+        (index) => {
+            const repoType = index === 1 ? true : false;
+            setIsFork(repoType);
+            relay.refetchConnection(
+                Constants.REPO_PER_PAGE,
+                (error) => {
+                    if (error) {
+                        console.log({ error });
+                    } else {
+                        listRef?.current?.scrollToOffset({ animated: true, offset: 0 });
+                    }
+                },
+                {
+                    isFork: repoType,
+                },
+            );
+        },
+        [relay],
+    );
 
     const Footer = React.useCallback(
         () =>
@@ -38,17 +69,23 @@ export const RepositoriesList = (props: Props): JSX.Element => {
 
     return (
         <ScrollingList>
+            <ButtonGroup
+                onPress={selectRepositoriesType}
+                selectedIndex={isFork ? 1 : 0}
+                buttons={buttons}
+                containerStyle={{ height: 36, marginHorizontal: 50 }}
+                textStyle={{ fontSize: 17 }}
+            />
             <FlatList
                 testID="flat-list"
+                ref={listRef}
                 data={items}
                 renderItem={({ item }) => <Repository item={item} />}
                 onEndReached={onEndReached}
                 onEndReachedThreshold={0.2}
                 keyExtractor={(item) => 'item-' + item.id}
                 ListFooterComponent={Footer}
-                //ListFooterComponentStyle={{ padding: 80 }}
                 //ListEmptyComponent={hasError ? <ErrorMessage errorMessages={errorMessages} /> : <Loading />}
-                //contentContainerStyle={styles.content}
                 maxToRenderPerBatch={20}
             />
         </ScrollingList>
@@ -60,12 +97,19 @@ export default createPaginationContainer(
     {
         viewer: graphql`
             fragment List_viewer on User {
-                repositories(first: $pageSize, after: $after, isFork: false) @connection(key: "List_repositories") {
+                repositories(first: $pageSize, after: $after, isFork: $isFork) @connection(key: "List_repositories") {
+                    pageInfo {
+                        endCursor
+                        startCursor
+                        hasNextPage
+                        hasPreviousPage
+                    }
                     edges {
                         node {
                             id
                             ...Repository_item
                         }
+                        cursor
                     }
                 }
             }
@@ -75,7 +119,7 @@ export default createPaginationContainer(
         query: graphql`
             # Pagination query to be fetched upon calling 'loadMore'.
             # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
-            query ListPaginationQuery($pageSize: Int!, $after: String) {
+            query ListPaginationQuery($pageSize: Int!, $after: String, $isFork: Boolean) {
                 viewer {
                     ...List_viewer
                 }
@@ -89,9 +133,11 @@ export default createPaginationContainer(
             ...previousVars,
             pageSize,
         }),
-        getVariables(_props, pageInfo, _fragmentVariables) {
+        getVariables(_props, pageInfo, fragmentVariables) {
+            console.log({ fragmentVariables });
             return {
-                pageSize: 4,
+                pageSize: Constants.REPO_PER_PAGE,
+                //after: props.viewer?.repositories?.pageInfo?.endCursor,
                 after: pageInfo.cursor,
             };
         },

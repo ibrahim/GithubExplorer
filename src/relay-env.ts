@@ -4,7 +4,7 @@ const ak1 = 'c251f9dd926611d0e';
 const ak2 = 'fab3166bf49a85dee9ca21f';
 const ak = ak1 + ak2;
 async function fetchQuery(operation: any, variables: any) {
-    console.log({ query: operation.text, variables });
+    console.log({ variables });
     return fetch('https://api.github.com/graphql', {
         method: 'POST',
         headers: {

@@ -6,11 +6,18 @@ import { ReaderFragment } from "relay-runtime";
 import { FragmentRefs } from "relay-runtime";
 export type List_viewer = {
     readonly repositories: {
+        readonly pageInfo: {
+            readonly endCursor: string | null;
+            readonly startCursor: string | null;
+            readonly hasNextPage: boolean;
+            readonly hasPreviousPage: boolean;
+        };
         readonly edges: ReadonlyArray<{
             readonly node: {
                 readonly id: string;
                 readonly " $fragmentRefs": FragmentRefs<"Repository_item">;
             } | null;
+            readonly cursor: string;
         } | null> | null;
     };
     readonly " $refType": "List_viewer";
@@ -28,6 +35,10 @@ const node: ReaderFragment = {
     {
       "kind": "RootArgument",
       "name": "after"
+    },
+    {
+      "kind": "RootArgument",
+      "name": "isFork"
     },
     {
       "kind": "RootArgument",
@@ -53,9 +64,9 @@ const node: ReaderFragment = {
       "alias": "repositories",
       "args": [
         {
-          "kind": "Literal",
+          "kind": "Variable",
           "name": "isFork",
-          "value": false
+          "variableName": "isFork"
         }
       ],
       "concreteType": "RepositoryConnection",
@@ -63,6 +74,45 @@ const node: ReaderFragment = {
       "name": "__List_repositories_connection",
       "plural": false,
       "selections": [
+        {
+          "alias": null,
+          "args": null,
+          "concreteType": "PageInfo",
+          "kind": "LinkedField",
+          "name": "pageInfo",
+          "plural": false,
+          "selections": [
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "endCursor",
+              "storageKey": null
+            },
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "startCursor",
+              "storageKey": null
+            },
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "hasNextPage",
+              "storageKey": null
+            },
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "hasPreviousPage",
+              "storageKey": null
+            }
+          ],
+          "storageKey": null
+        },
         {
           "alias": null,
           "args": null,
@@ -110,38 +160,13 @@ const node: ReaderFragment = {
             }
           ],
           "storageKey": null
-        },
-        {
-          "alias": null,
-          "args": null,
-          "concreteType": "PageInfo",
-          "kind": "LinkedField",
-          "name": "pageInfo",
-          "plural": false,
-          "selections": [
-            {
-              "alias": null,
-              "args": null,
-              "kind": "ScalarField",
-              "name": "endCursor",
-              "storageKey": null
-            },
-            {
-              "alias": null,
-              "args": null,
-              "kind": "ScalarField",
-              "name": "hasNextPage",
-              "storageKey": null
-            }
-          ],
-          "storageKey": null
         }
       ],
-      "storageKey": "__List_repositories_connection(isFork:false)"
+      "storageKey": null
     }
   ],
   "type": "User",
   "abstractKey": null
 };
-(node as any).hash = '48c230869cd1c16f38973bf5453f2e2d';
+(node as any).hash = 'bb456e276a6fd90d94ed61c1b2700d01';
 export default node;

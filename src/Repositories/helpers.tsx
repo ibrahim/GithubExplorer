@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Text, View, ActivityIndicator } from 'react-native';
 import { isEmpty } from 'lodash';
+import { LoadingContainer } from './styled'
 import { Repository } from './types';
 import { styles } from './styles';
 
@@ -32,7 +33,7 @@ export const ErrorMessage = ({ errorMessages }: { errorMessages: string[] }): JS
 };
 
 export const Loading = (): JSX.Element => (
-    <View style={styles.loading} accessibilityLabel="loading">
+    <LoadingContainer accessibilityLabel="loading">
         <ActivityIndicator size="large" color="#666" />
-    </View>
+    </LoadingContainer>
 );

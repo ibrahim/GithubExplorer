@@ -5,6 +5,7 @@ export const ScrollingList = Styled.View`
 	flex:1;
 	flex-basis: ${hp('20%')}px;
 	flex-grow:1;
+	background-color: #FFFFFF;
 `;
 
 export const FooterContainer = Styled.View`
