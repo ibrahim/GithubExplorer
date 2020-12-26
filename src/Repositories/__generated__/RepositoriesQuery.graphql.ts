@@ -65,6 +65,7 @@ fragment Repository_item on Repository {
   primaryLanguage {
     id
     name
+    color
   }
 }
 */
@@ -266,7 +267,14 @@ return {
                         "plural": false,
                         "selections": [
                           (v3/*: any*/),
-                          (v4/*: any*/)
+                          (v4/*: any*/),
+                          {
+                            "alias": null,
+                            "args": null,
+                            "kind": "ScalarField",
+                            "name": "color",
+                            "storageKey": null
+                          }
                         ],
                         "storageKey": null
                       },
@@ -310,12 +318,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "0e615fce8bc2fe787addb7f4a482107c",
+    "cacheID": "f006866c0c390e92eac7e15b491a0eaa",
     "id": null,
     "metadata": {},
     "name": "RepositoriesQuery",
     "operationKind": "query",
-    "text": "query RepositoriesQuery(\n  $pageSize: Int!\n  $after: String\n  $isFork: Boolean\n) {\n  viewer {\n    ...ProfileHeader_viewer\n    ...List_viewer\n    id\n  }\n}\n\nfragment List_viewer on User {\n  repositories(first: $pageSize, after: $after, isFork: $isFork) {\n    pageInfo {\n      endCursor\n      startCursor\n      hasNextPage\n      hasPreviousPage\n    }\n    edges {\n      node {\n        id\n        ...Repository_item\n        __typename\n      }\n      cursor\n    }\n  }\n}\n\nfragment ProfileHeader_viewer on User {\n  id\n  name\n  avatarUrl(size: 300)\n}\n\nfragment Repository_item on Repository {\n  name\n  stargazerCount\n  primaryLanguage {\n    id\n    name\n  }\n}\n"
+    "text": "query RepositoriesQuery(\n  $pageSize: Int!\n  $after: String\n  $isFork: Boolean\n) {\n  viewer {\n    ...ProfileHeader_viewer\n    ...List_viewer\n    id\n  }\n}\n\nfragment List_viewer on User {\n  repositories(first: $pageSize, after: $after, isFork: $isFork) {\n    pageInfo {\n      endCursor\n      startCursor\n      hasNextPage\n      hasPreviousPage\n    }\n    edges {\n      node {\n        id\n        ...Repository_item\n        __typename\n      }\n      cursor\n    }\n  }\n}\n\nfragment ProfileHeader_viewer on User {\n  id\n  name\n  avatarUrl(size: 300)\n}\n\nfragment Repository_item on Repository {\n  name\n  stargazerCount\n  primaryLanguage {\n    id\n    name\n    color\n  }\n}\n"
   }
 };
 })();

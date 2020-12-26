@@ -58,6 +58,7 @@ fragment Repository_item on Repository {
   primaryLanguage {
     id
     name
+    color
   }
 }
 */
@@ -239,7 +240,14 @@ return {
                         "plural": false,
                         "selections": [
                           (v4/*: any*/),
-                          (v5/*: any*/)
+                          (v5/*: any*/),
+                          {
+                            "alias": null,
+                            "args": null,
+                            "kind": "ScalarField",
+                            "name": "color",
+                            "storageKey": null
+                          }
                         ],
                         "storageKey": null
                       },
@@ -284,12 +292,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "2662e191e5a93ce588834d16e9fbc59d",
+    "cacheID": "78f50b9aa3e0b5b4b5aca71e3ffacccd",
     "id": null,
     "metadata": {},
     "name": "ListPaginationQuery",
     "operationKind": "query",
-    "text": "query ListPaginationQuery(\n  $pageSize: Int!\n  $after: String\n  $isFork: Boolean\n) {\n  viewer {\n    ...List_viewer\n    id\n  }\n}\n\nfragment List_viewer on User {\n  repositories(first: $pageSize, after: $after, isFork: $isFork) {\n    pageInfo {\n      endCursor\n      startCursor\n      hasNextPage\n      hasPreviousPage\n    }\n    edges {\n      node {\n        id\n        ...Repository_item\n        __typename\n      }\n      cursor\n    }\n  }\n}\n\nfragment Repository_item on Repository {\n  name\n  stargazerCount\n  primaryLanguage {\n    id\n    name\n  }\n}\n"
+    "text": "query ListPaginationQuery(\n  $pageSize: Int!\n  $after: String\n  $isFork: Boolean\n) {\n  viewer {\n    ...List_viewer\n    id\n  }\n}\n\nfragment List_viewer on User {\n  repositories(first: $pageSize, after: $after, isFork: $isFork) {\n    pageInfo {\n      endCursor\n      startCursor\n      hasNextPage\n      hasPreviousPage\n    }\n    edges {\n      node {\n        id\n        ...Repository_item\n        __typename\n      }\n      cursor\n    }\n  }\n}\n\nfragment Repository_item on Repository {\n  name\n  stargazerCount\n  primaryLanguage {\n    id\n    name\n    color\n  }\n}\n"
   }
 };
 })();

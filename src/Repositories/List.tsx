@@ -9,7 +9,6 @@ import * as Constants from '../constants';
 export interface ComponentProps {
     viewer: any;
     relay: RelayPaginationProp;
-    isFork: boolean;
 }
 
 export type Props = ComponentProps;

@@ -10,6 +10,7 @@ export type Repository_item = {
     readonly primaryLanguage: {
         readonly id: string;
         readonly name: string;
+        readonly color: string | null;
     } | null;
     readonly " $refType": "Repository_item";
 };
@@ -58,7 +59,14 @@ return {
           "name": "id",
           "storageKey": null
         },
-        (v0/*: any*/)
+        (v0/*: any*/),
+        {
+          "alias": null,
+          "args": null,
+          "kind": "ScalarField",
+          "name": "color",
+          "storageKey": null
+        }
       ],
       "storageKey": null
     }
@@ -67,5 +75,5 @@ return {
   "abstractKey": null
 };
 })();
-(node as any).hash = '8bac00821115c24119bbdfad7f5f6713';
+(node as any).hash = 'e7b780b3ef7bf294ef44f654d819e0e4';
 export default node;

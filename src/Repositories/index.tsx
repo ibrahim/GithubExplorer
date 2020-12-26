@@ -30,7 +30,7 @@ export const ReposScreen = (): JSX.Element => {
                     return <Text>Error!</Text>;
                 }
                 if (!props) {
-					return <Loading/>;
+                    return <Loading />;
                 }
                 return (
                     <Layout>
