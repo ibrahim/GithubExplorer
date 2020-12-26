@@ -20,7 +20,7 @@ export const ProfileHeader = (props: Props): JSX.Element => {
                 rounded
                 source={{ uri: viewer.avatarUrl }}
             />
-            <Text h2>{viewer.name}</Text>
+            <Text h2 >{viewer.name}</Text>
         </ProfileHeaderContainer>
     );
 };

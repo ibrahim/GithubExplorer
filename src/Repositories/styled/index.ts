@@ -3,9 +3,11 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 
 export const Layout = Styled.SafeAreaView`
 	flex:1;
+	display:flex;
 	flex-flow: column;
 	justify-content: flex-start;
 	align-items: flex-start;
+	background-color: #FFFFFF;
 `;
 export const LoadingContainer = Styled.SafeAreaView`
 	flex:1;

@@ -28,7 +28,7 @@ export const RepositoriesList = (props: Props): JSX.Element => {
         if (pageInfo.hasNextPage) {
             /* eslint-disable no-console */
             console.log('load more');
-            await relay.loadMore(20);
+            await relay.loadMore(Constants.REPO_PER_PAGE);
         } else {
             /* eslint-disable no-console */
             console.log('Has no more or isLoading');
@@ -140,6 +140,7 @@ export default createPaginationContainer(
             return {
                 pageSize: Constants.REPO_PER_PAGE,
                 //after: props.viewer?.repositories?.pageInfo?.endCursor,
+				isFork: fragmentVariables.isFork,
                 after: pageInfo.cursor,
             };
         },
