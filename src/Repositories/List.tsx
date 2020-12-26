@@ -23,11 +23,12 @@ export const RepositoriesList = (props: Props): JSX.Element => {
 
     const [isFork, setIsFork] = React.useState(false);
     const listRef = React.useRef<FlatList<any>>(null);
-    const onEndReached = () => {
-        if (pageInfo.hasNextPage && !relay.isLoading()) {
+    const onEndReached = async () => {
+        if (relay.isLoading()) return;
+        if (pageInfo.hasNextPage) {
             /* eslint-disable no-console */
             console.log('load more');
-            relay.loadMore(20);
+            await relay.loadMore(20);
         } else {
             /* eslint-disable no-console */
             console.log('Has no more or isLoading');
@@ -37,10 +38,11 @@ export const RepositoriesList = (props: Props): JSX.Element => {
 
     const buttons = ['Original', 'Forked'];
     const selectRepositoriesType = React.useCallback(
-        (index) => {
+        async (index) => {
             const repoType = index === 1 ? true : false;
+            if (relay.isLoading()) return;
             setIsFork(repoType);
-            relay.refetchConnection(
+            await relay.refetchConnection(
                 Constants.REPO_PER_PAGE,
                 (error) => {
                     if (error) {
@@ -133,8 +135,8 @@ export default createPaginationContainer(
             ...previousVars,
             pageSize,
         }),
-        getVariables(_props, pageInfo, fragmentVariables) {
-            console.log({ fragmentVariables });
+        getVariables(props, pageInfo, fragmentVariables) {
+            console.log({ fragmentVariables, pageInfo, qpageInfo: props.viewer?.repositories?.pageInfo });
             return {
                 pageSize: Constants.REPO_PER_PAGE,
                 //after: props.viewer?.repositories?.pageInfo?.endCursor,
