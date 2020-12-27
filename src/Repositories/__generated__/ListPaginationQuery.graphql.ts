@@ -55,6 +55,7 @@ fragment List_viewer on User {
 fragment Repository_item on Repository {
   name
   stargazerCount
+  description
   primaryLanguage {
     id
     name
@@ -234,6 +235,13 @@ return {
                       {
                         "alias": null,
                         "args": null,
+                        "kind": "ScalarField",
+                        "name": "description",
+                        "storageKey": null
+                      },
+                      {
+                        "alias": null,
+                        "args": null,
                         "concreteType": "Language",
                         "kind": "LinkedField",
                         "name": "primaryLanguage",
@@ -292,12 +300,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "78f50b9aa3e0b5b4b5aca71e3ffacccd",
+    "cacheID": "bf6b40a87f51894fee69cf09e38eec07",
     "id": null,
     "metadata": {},
     "name": "ListPaginationQuery",
     "operationKind": "query",
-    "text": "query ListPaginationQuery(\n  $pageSize: Int!\n  $after: String\n  $isFork: Boolean\n) {\n  viewer {\n    ...List_viewer\n    id\n  }\n}\n\nfragment List_viewer on User {\n  repositories(first: $pageSize, after: $after, isFork: $isFork) {\n    pageInfo {\n      endCursor\n      startCursor\n      hasNextPage\n      hasPreviousPage\n    }\n    edges {\n      node {\n        id\n        ...Repository_item\n        __typename\n      }\n      cursor\n    }\n  }\n}\n\nfragment Repository_item on Repository {\n  name\n  stargazerCount\n  primaryLanguage {\n    id\n    name\n    color\n  }\n}\n"
+    "text": "query ListPaginationQuery(\n  $pageSize: Int!\n  $after: String\n  $isFork: Boolean\n) {\n  viewer {\n    ...List_viewer\n    id\n  }\n}\n\nfragment List_viewer on User {\n  repositories(first: $pageSize, after: $after, isFork: $isFork) {\n    pageInfo {\n      endCursor\n      startCursor\n      hasNextPage\n      hasPreviousPage\n    }\n    edges {\n      node {\n        id\n        ...Repository_item\n        __typename\n      }\n      cursor\n    }\n  }\n}\n\nfragment Repository_item on Repository {\n  name\n  stargazerCount\n  description\n  primaryLanguage {\n    id\n    name\n    color\n  }\n}\n"
   }
 };
 })();

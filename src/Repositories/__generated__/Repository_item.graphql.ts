@@ -7,6 +7,7 @@ import { FragmentRefs } from "relay-runtime";
 export type Repository_item = {
     readonly name: string;
     readonly stargazerCount: number;
+    readonly description: string | null;
     readonly primaryLanguage: {
         readonly id: string;
         readonly name: string;
@@ -47,6 +48,13 @@ return {
     {
       "alias": null,
       "args": null,
+      "kind": "ScalarField",
+      "name": "description",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
       "concreteType": "Language",
       "kind": "LinkedField",
       "name": "primaryLanguage",
@@ -75,5 +83,5 @@ return {
   "abstractKey": null
 };
 })();
-(node as any).hash = 'e7b780b3ef7bf294ef44f654d819e0e4';
+(node as any).hash = '61238ffad487a0e825ffcd07a021905c';
 export default node;
