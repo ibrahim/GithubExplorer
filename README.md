@@ -6,7 +6,7 @@ Github Explorer is a demo mobile application built using ReactNative/Expo to con
 
 The application is published on Expo and can be run on Android using an expo client. 
 
-# [Expo project page](https://expo.io/@ibrahimahmed/githubexplorer).
+# [Expo project page](https://expo.io/@ibrahimahmed/github-explorer).
 
 # Features
 
