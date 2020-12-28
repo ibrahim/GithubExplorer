@@ -18,10 +18,11 @@ async function fetchQuery(operation: any, variables: any) {
     })
         .then(async (response) => {
             const res = await response.json();
-			//console.log({ res });
+            //console.log({ res });
             return res;
         })
         .catch((error) => {
+            /* eslint-disable no-console*/
             console.log({ error });
         });
 }

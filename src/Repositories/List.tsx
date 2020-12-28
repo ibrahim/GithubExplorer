@@ -25,12 +25,8 @@ export const RepositoriesList = (props: Props): JSX.Element => {
     const onEndReached = async () => {
         if (relay.isLoading()) return;
         if (pageInfo.hasNextPage) {
-            /* eslint-disable no-console */
-            console.log('load more');
             await relay.loadMore(Constants.REPO_PER_PAGE);
         } else {
-            /* eslint-disable no-console */
-            console.log('Has no more or isLoading');
             return null;
         }
     };
@@ -45,6 +41,7 @@ export const RepositoriesList = (props: Props): JSX.Element => {
                 Constants.REPO_PER_PAGE,
                 (error) => {
                     if (error) {
+                        /* eslint-disable no-console */
                         console.log({ error });
                     } else {
                         listRef?.current?.scrollToOffset({ animated: true, offset: 0 });
@@ -139,7 +136,7 @@ export default createPaginationContainer(
             return {
                 pageSize: Constants.REPO_PER_PAGE,
                 //after: props.viewer?.repositories?.pageInfo?.endCursor,
-				isFork: fragmentVariables.isFork,
+                isFork: fragmentVariables.isFork,
                 after: pageInfo.cursor,
             };
         },

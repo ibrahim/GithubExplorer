@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Text, View, ActivityIndicator } from 'react-native';
 import { isEmpty } from 'lodash';
-import { LoadingContainer } from './styled'
+import { LoadingContainer } from './styled';
 import { Repository } from './types';
 import { styles } from './styles';
 

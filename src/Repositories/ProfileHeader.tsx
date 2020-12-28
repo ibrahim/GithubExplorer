@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Text, Avatar } from 'react-native-elements';
-import { Platform } from 'react-native';
 import { graphql, createFragmentContainer } from 'react-relay';
 //import { isEmpty } from 'lodash';
 import { ProfileHeaderContainer } from './styled';
