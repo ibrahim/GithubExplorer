@@ -11,10 +11,11 @@ The application is published on Expo and can be run on Android using an expo cli
 # Features
 
 -   The user name/avatar.
--   Repositories sources and forks.
+-   List Rrepositories sources, and refetch when selecting forks.
+- 	Load more repositories when scrolling down.
 -   Details page for repository.
 -   Primary language name and logo.
--   List of commits history.
+-   List of commits history, and load more when scrolling down.
 
 # Technologies and Library:
 
