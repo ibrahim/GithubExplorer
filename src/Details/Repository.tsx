@@ -4,7 +4,6 @@ import { Text } from 'react-native';
 import { graphql, QueryRenderer } from 'react-relay';
 import { environment } from '../relay-env';
 import { Loading } from '../Repositories/helpers';
-import * as Constants from '../constants';
 import History from './History';
 
 const repositoryQuery = graphql`
@@ -26,7 +25,7 @@ export const ReposScreen = (props: Props): JSX.Element => {
         <QueryRenderer<RepositoryQuery>
             environment={environment}
             query={repositoryQuery}
-            variables={{ pageSize: Constants.REPO_PER_PAGE, name }}
+            variables={{ pageSize: 100, name }}
             render={({ error, props }) => {
                 if (error) {
                     return <Text>Error!</Text>;
